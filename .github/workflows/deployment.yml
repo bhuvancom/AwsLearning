@@ -17,7 +17,6 @@ jobs:
           java-package: jdk
           java-version: ${{ matrix.java }}
       - name: Compile the project
-        working-directory: github-actions-java-maven
         run: mvn -B compile
   build:
     runs-on: ubuntu-20.04
@@ -38,7 +37,6 @@ jobs:
           java-version: 11
           java-package: jdk
       - name: Build and test project
-        working-directory: github-actions-java-maven
         run: mvn clean package --file pom.xml
 
 
