@@ -1,5 +1,5 @@
 name: Build Maven project and deploy to lmabda
-  on: [push]
+on: [ push ]
   jobs:
     compile:
       runs-on: ubuntu-20.04
