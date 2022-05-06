@@ -9,6 +9,7 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.commons.codec.binary.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ListUsers implements RequestHandler<Map<String, String>, String> {
         List<User> users = new ArrayList<>();
         String tblName = System.getenv("TABLE_NAME");
         DynamoDBMapper mapper = new DynamoDBMapper(dbClient);
-        if (event.get("userId") == null) {
+        if (event.get("userId") == null || event.get("userId").isBlank()) {
             DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
             users.addAll(mapper.scan(User.class, scanExpression));
         } else {
