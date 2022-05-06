@@ -38,7 +38,7 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           function_name: java-list-users-fun
-          zip_file: AwsLearning-1.0-SNAPSHOT.jar
+          zip_file: staging/AwsLearning-1.0-SNAPSHOT.jar
           aws_region: ap-south-1
 
 
