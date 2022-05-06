@@ -35,6 +35,7 @@ public class ListUsers implements RequestHandler<Map<String, String>, String> {
         } else {
             users.add(mapper.load(User.class, event.get("userId")));
         }
-        return gson.toJson(users);
+
+        return gson.toJsonTree(users).toString();
     }
 }
