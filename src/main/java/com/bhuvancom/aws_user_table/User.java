@@ -4,11 +4,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 @DynamoDBTable(tableName = "notes")
 public class User {
-    @DynamoDBHashKey(attributeName = "UserId")
     private String userId;
-    @DynamoDBRangeKey(attributeName = "NotesId")
+
     private Integer noteId;
-    @DynamoDBAttribute(attributeName = "Note")
+
     private String note;
 
     @Override
@@ -29,6 +28,7 @@ public class User {
         this.note = note;
     }
 
+    @DynamoDBHashKey(attributeName = "UserId")
     public String getUserId() {
         return userId;
     }
@@ -37,6 +37,7 @@ public class User {
         this.userId = userId;
     }
 
+    @DynamoDBRangeKey(attributeName = "NotesId")
     public Integer getNoteId() {
         return noteId;
     }
@@ -45,6 +46,7 @@ public class User {
         this.noteId = noteId;
     }
 
+    @DynamoDBAttribute(attributeName = "Note")
     public String getNote() {
         return note;
     }
