@@ -1,0 +1,9 @@
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 300
+      MemorySize: 128
+      Handler: com.bhuvancom.aws_user_table.ListUsers
+      CodeUri: C:\Users\Bhuvaneshvar\IdeaProjects\AwsLearning
+      Runtime: java11

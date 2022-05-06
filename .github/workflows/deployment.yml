@@ -1,0 +1,15 @@
+- name: Build Maven project
+  on: [push]
+  run: |
+    mvn -B package --file pom.xml -Dmaven.test.skip
+    mkdir staging && cp target/*.jar staging
+
+- name: Set up a cache for Maven
+  uses: actions/cache@v2
+  with:
+    path: ~/.m2
+    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    restore-keys: ${{ runner.os }}-m2
+
+- name: AWS Lambda Deploy
+  uses: appleboy/lambda-action@v0.1.5
