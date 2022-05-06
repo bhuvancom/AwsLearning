@@ -14,8 +14,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-            java-package: jdk
-            java-version: ${{ matrix.java }}
+          java-package: jdk
+          java-version: ${{ matrix.java }}
       - name: Compile the project
         working-directory: github-actions-java-maven
         run: mvn -B compile
