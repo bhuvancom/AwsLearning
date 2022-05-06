@@ -26,12 +26,20 @@ jobs:
     name: Upload to aws lambda
     runs-on: ubuntu-20.04
     steps:
-      - name: default deploy
+      - name: default java-create-user-fun deploy
         uses: appleboy/lambda-action@master
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          function_name:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          function_name: java-create-user-fun
+          zip_file: AwsLearning-1.0-SNAPSHOT.jar
+
+      - name: default java-list-users-fun deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          function_name: java-list-users-fun
           zip_file: AwsLearning-1.0-SNAPSHOT.jar
 
 
