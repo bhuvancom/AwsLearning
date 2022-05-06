@@ -1,9 +1,9 @@
 name: Build Maven project and deploy to lmabda
 on: [push]
 jobs:
-  build:
+  build-deploy-to-aws:
     runs-on: ubuntu-20.04
-    name: Build the package
+    name: Build the package and deploy to aws laambda
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -21,11 +21,6 @@ jobs:
       - name: Build and test project
         run: mvn clean compile package --file pom.xml
 
-  upload-to-aws-lambda:
-    needs: build
-    name: Upload to aws lambda
-    runs-on: ubuntu-20.04
-    steps:
       - name: default java-create-user-fun deploy
         uses: appleboy/lambda-action@master
         with:
@@ -33,6 +28,7 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           function_name: java-create-user-fun
           zip_file: AwsLearning-1.0-SNAPSHOT.jar
+          aws_region: ap-south-1
 
       - name: default java-list-users-fun deploy
         uses: appleboy/lambda-action@master
@@ -41,7 +37,7 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           function_name: java-list-users-fun
           zip_file: AwsLearning-1.0-SNAPSHOT.jar
-
+          aws_region: ap-south-1
 
 
 
