@@ -3,7 +3,9 @@ package com.bhuvancom.aws_user_table;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -12,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import org.apache.commons.codec.binary.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,12 +31,19 @@ public class ListUsers implements RequestHandler<Map<String, String>, String> {
         logger.log("EVENT TYPE: " + event.getClass().toString());
         List<User> users = new ArrayList<>();
         String tblName = System.getenv("TABLE_NAME");
+        String userId = event.get("userId");
         DynamoDBMapper mapper = new DynamoDBMapper(dbClient);
-        if (event.get("userId") == null || event.get("userId").isBlank()) {
+        if (userId == null || userId.isBlank()) {
             DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
             users.addAll(mapper.scan(User.class, scanExpression));
         } else {
-            users.add(mapper.load(User.class, event.get("userId")));
+            Map<String, AttributeValue> query = new HashMap<>(1);
+            query.put(":v1", new AttributeValue().withS(userId));
+            DynamoDBQueryExpression<User> mDynaQueryExpression = new DynamoDBQueryExpression<User>()
+                    .withKeyConditionExpression("UserId = :v1")
+                    .withExpressionAttributeValues(query);
+            List<User> searched = mapper.query(User.class, mDynaQueryExpression);
+            users.addAll(searched);
         }
 
         return gson.toJsonTree(users).toString();
