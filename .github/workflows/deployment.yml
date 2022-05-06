@@ -26,9 +26,14 @@ jobs:
     name: Upload to aws lambda
     runs-on: ubuntu-20.04
     steps:
-      - name: list jar
-        run: |
-          ls
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          function_name:
+          zip_file: AwsLearning-1.0-SNAPSHOT.jar
+
 
 
 
