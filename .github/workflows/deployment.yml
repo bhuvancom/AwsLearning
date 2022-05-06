@@ -1,9 +1,9 @@
-name: Build Maven project and deploy to lmabda
+name: Build Maven project and deploy to ,\
 on: [push]
 jobs:
   build-deploy-to-aws:
     runs-on: ubuntu-20.04
-    name: Build the package and deploy to aws laambda
+    name: Build the package and deploy to aws ,\
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -19,9 +19,13 @@ jobs:
           java-version: 11
           java-package: jdk
       - name: Build and test project
-        run: mvn clean compile package --file pom.xml
+        run: |
+          mvn clean compile package --file pom.xml -Dmaven.test.skip
+          mkdir staging && cp target/*.jar staging
 
       - name: default java-create-user-fun deploy
+        run: |
+          cd staging
         uses: appleboy/lambda-action@master
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
