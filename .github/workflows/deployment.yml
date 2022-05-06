@@ -24,8 +24,7 @@ jobs:
           mkdir staging && cp target/*.jar staging
 
       - name: default java-create-user-fun deploy
-        run: |
-          cd staging
+        working-directory: staging
         uses: appleboy/lambda-action@master
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
